@@ -53,8 +53,11 @@ def menu_screen():
     btn3 = ctk.CTkButton(frame, text="SUTRA EXPLAINATION", width=250, command=sutra_page)
     btn3.pack(pady=10)
 
-    btn4 = ctk.CTkButton(frame, text="EXIT", width=250, command=app.destroy)
+    btn4 = ctk.CTkButton(frame, text="VEDIC CALCULATOR", width=250, command=vedic_calc)
     btn4.pack(pady=10)
+
+    btn5 = ctk.CTkButton(frame, text="EXIT", width=250, command=app.destroy)
+    btn5.pack(pady=10)
 
 
 # ---------- About Team ----------
@@ -67,8 +70,8 @@ def about_team():
     title = ctk.CTkLabel(frame, text="GROUP 7", font=("Arial", 35, "bold"))
     title.pack(pady=20)
 
-    member = ctk.CTkLabel(frame, text="Mothe Sandeep", font=("Arial", 25))
-    member.pack(pady=10)
+    member1 = ctk.CTkLabel(frame, text="Mothe Sandeep", font=("Arial", 25))
+    member1.pack(pady=10)
 
     back = ctk.CTkButton(frame, text="BACK", command=menu_screen)
     back.pack(pady=30)
@@ -88,24 +91,6 @@ def about_tirtha():
     )
     title.pack(pady=10)
 
-    text = """
-Bharati Krishna Tirtha Ji (1884–1960) was an Indian mathematician
-and scholar who rediscovered the ancient system of Vedic Mathematics.
-
-He was a Shankaracharya of Govardhan Math, Puri.
-He studied the Vedas deeply and derived 16 mathematical sutras
-that make calculations very fast and simple.
-
-His famous book 'Vedic Mathematics' explains these sutras and
-their applications in arithmetic, algebra, and geometry.
-
-These techniques help solve complex problems quickly
-using mental calculations.
-"""
-    label = ctk.CTkLabel(frame, text=text, wraplength=800, justify="left")
-    label.pack(pady=20)
-
-    # Image
     try:
         img = Image.open("tirtha.jpg")
         img = ctk.CTkImage(img, size=(200, 250))
@@ -113,6 +98,38 @@ using mental calculations.
         img_label.pack(pady=10)
     except:
         pass
+
+    text = """
+•Bharati Krishna Tirtha (1884–1960) was a famous Indian mathematician, scholar, and spiritual leader.
+
+•He was born on 14 March 1884 in Tamil Nadu, India. His original name was Venkatraman Shastri.
+
+•From childhood, he was known for his extraordinary intelligence and excellent academic performance.
+
+•He studied many subjects such as mathematics, Sanskrit, philosophy, history, and science.
+
+•During his student life, he achieved very high marks and was considered one of the most brilliant students of his time.
+
+•Later, he chose a spiritual path and became the Shankaracharya of Govardhan Math in Puri, an important spiritual position in India.
+
+•While serving as Shankaracharya, he studied the ancient Indian scriptures, especially the Vedas.
+
+•Through his research, he rediscovered a mathematical system called Vedic Mathematics.
+
+•This system is based on 16 mathematical sutras (formulas) and 13 sub-sutras, which help solve mathematical problems quickly.
+
+•His famous book Vedic Mathematics explains these formulas and their applications in arithmetic, algebra, and geometry.
+
+•The book became popular worldwide and helped many students learn faster calculation techniques.
+
+•Bharati Krishna Tirtha was also a great teacher, philosopher, and spiritual guide.
+
+•His work helped revive and promote the ancient Indian knowledge system of mathematics.
+"""
+
+    label = ctk.CTkLabel(frame, text=text, wraplength=800, justify="left")
+    label.pack(pady=20)
+
 
     back = ctk.CTkButton(frame, text="BACK", command=menu_screen)
     back.pack(pady=20)
@@ -130,25 +147,24 @@ def sutra_page():
     title.pack(pady=20)
 
     text = """
-Meaning: "All from 9 and the last from 10"
+Meaning: All from 9 and the last from 10
 
-This sutra is used to multiply numbers close to 10, 100, 1000 etc.
+This sutra is used to multiply numbers close to 100.
 
 Example: 98 × 97
 
 Step 1: Base = 100
-Step 2: Find deficiency
+Step 2: Deficiency
 98 → -2
 97 → -3
 
-Step 3: Cross subtract
+Step 3: Cross Subtract
 98 - 3 = 95
 
-Step 4: Multiply deficiencies
+Step 4: Multiply deficiency
 (-2 × -3) = 06
 
-Step 5: Combine
-Answer = 9506
+Final Answer = 9506
 """
 
     label = ctk.CTkLabel(frame, text=text, wraplength=800, justify="left")
@@ -158,7 +174,74 @@ Answer = 9506
     back.pack(pady=20)
 
 
-# Start program
+# ---------- Vedic Calculator ----------
+# ---------- Vedic Calculator ----------
+def vedic_calc():
+    clear()
+
+    frame = ctk.CTkFrame(app)
+    frame.pack(expand=True)
+
+    title = ctk.CTkLabel(frame, text="VEDIC MULTIPLICATION", font=("Arial", 30, "bold"))
+    title.pack(pady=20)
+
+    num1 = ctk.CTkEntry(frame, placeholder_text="Enter First Number")
+    num1.pack(pady=10)
+
+    num2 = ctk.CTkEntry(frame, placeholder_text="Enter Second Number")
+    num2.pack(pady=10)
+
+    result_label = ctk.CTkLabel(frame, text="", font=("Arial", 20))
+    result_label.pack(pady=20)
+
+    def calculate():
+        try:
+            a = int(num1.get())
+            b = int(num2.get())
+
+            # automatic base detection
+            max_num = max(a, b)
+            base = 10 ** len(str(max_num))
+
+            d1 = a - base
+            d2 = b - base
+
+            # left part
+            left = a + d2
+
+            # right part
+            right = d1 * d2
+
+            # digits according to base
+            digits = len(str(base)) - 1
+            right_part = str(abs(right)).zfill(digits)
+
+            answer = a * b
+
+            result_label.configure(
+                text=f"""
+Base = {base}
+
+Deficiency = {d1} , {d2}
+
+Left Part = {left}
+Right Part = {right_part}
+
+Answer = {answer}
+"""
+            )
+
+        except:
+            result_label.configure(text="Please enter valid numbers")
+
+    calc_btn = ctk.CTkButton(frame, text="CALCULATE", command=calculate)
+    calc_btn.pack(pady=10)
+
+    back = ctk.CTkButton(frame, text="BACK", command=menu_screen)
+    back.pack(pady=20)
+
+
+# ---------- Start Program ----------
 welcome_screen()
 
 app.mainloop()
